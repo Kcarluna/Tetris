@@ -103,19 +103,65 @@ I_Block::I_Block(int x, int y, int w, int h)
 }
 
 void I_Block::rotate() {
-	std::cout << "I ROTIAITION" << std::endl;
+	switch (m_dir) {
+		case UP: {
+			m_dir = DOWN;
+			m_block[0] = {m_block[0].x - (2 * m_w), m_block[0].y - (2 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x - (1 * m_w), m_block[1].y - (1 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (1 * m_w), m_block[3].y + (1 * m_h), m_w, m_h};
+		} break;
+		case DOWN: {
+			m_dir = UP;
+			m_block[0] = {m_block[0].x + (2 * m_w), m_block[0].y + (2 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (1 * m_w), m_block[1].y + (1 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x - (1 * m_w), m_block[3].y - (1 * m_h), m_w, m_h};
+		} break;
+		default: {
+		} break;
+	}
 }
 
 J_Block::J_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
 		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
-		m_block[1] = {x + (0 * w), y + (1 * h), w, h};
-		m_block[2] = {x + (1 * w), y + (1 * h), w, h};
+		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
+		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (2 * w), y + (1 * h), w, h};
 	}
 
 void J_Block::rotate() {
-	std::cout << "ROTTIES" << std::endl;
+	switch (m_dir) {
+		case UP: {
+			m_dir = LEFT;
+			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y + (0 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x - (1 * m_w), m_block[1].y - (2 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (1 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case LEFT: {
+			m_dir = DOWN;
+			m_block[0] = {m_block[0].x - (1 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (1 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (2 * m_w), m_block[2].y - (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (1 * m_w), m_block[3].y + (1 * m_h), m_w, m_h};
+		} break;
+		case DOWN: {
+			m_dir = RIGHT;
+			m_block[0] = {m_block[0].x + (1 * m_w), m_block[0].y + (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x - (1 * m_w), m_block[2].y - (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y - (2 * m_h), m_w, m_h};
+		} break;
+		case RIGHT: {
+			m_dir = UP;
+			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y + (0 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (1 * m_w), m_block[1].y + (1 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x - (1 * m_w), m_block[2].y + (2 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x - (2 * m_w), m_block[3].y + (1 * m_h), m_w, m_h};
+		} break;
+	}
 }
 
 L_Block::L_Block(int x, int y, int w, int h)
@@ -127,8 +173,36 @@ L_Block::L_Block(int x, int y, int w, int h)
 	}
 
 void L_Block::rotate() {
-	std::cout << "SKTRA" << std::endl;
-
+	switch (m_dir) {
+		case UP: {
+			m_dir = LEFT;
+			m_block[0] = {m_block[0].x - (1 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x - (1 * m_w), m_block[1].y - (1 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y - (2 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x - (2 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case LEFT: {
+			m_dir = DOWN;
+			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y + (0 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (1 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (2 * m_w), m_block[2].y + (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case DOWN: {
+			m_dir = RIGHT;
+			m_block[0] = {m_block[0].x + (1 * m_w), m_block[0].y + (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x - (1 * m_w), m_block[2].y - (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (2 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case RIGHT: {
+			m_dir = UP;
+			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y + (0 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (1 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x - (1 * m_w), m_block[2].y + (2 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+	}
 }
 
 O_Block::O_Block(int x, int y, int w, int h)
@@ -148,19 +222,65 @@ S_Block::S_Block(int x, int y, int w, int h)
 	}
 
 void S_Block::rotate() {
-	std::cout << "RSTTIES" << std::endl;
+	switch (m_dir) {
+		case UP: {
+			m_dir = DOWN;
+			m_block[0] = {m_block[0].x - (1 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (1 * m_w), m_block[2].y - (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (2 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case DOWN: {
+			m_dir = UP;
+			m_block[0] = {m_block[0].x + (1 * m_w), m_block[0].y + (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x - (1 * m_w), m_block[2].y + (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x - (2 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		default: {
+		} break;
+	}
 }
 
 T_Block::T_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (1 * h), w, h};
-		m_block[1] = {x + (1 * w), y + (1 * h), w, h};
-		m_block[2] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[3] = {x + (2 * w), y + (1 * h), w, h};
+		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
+		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
+		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
+		m_block[3] = {x + (1 * w), y + (1 * h), w, h};
 	}
 
 void T_Block::rotate() {
-	std::cout << "RTTTIET" << std::endl;
+	switch (m_dir) {
+		case UP: {
+			m_dir = LEFT;
+			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x - (1 * m_w), m_block[2].y - (2 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case LEFT: {
+			m_dir = DOWN;
+			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y + (0 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (1 * m_w), m_block[2].y + (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case DOWN: {
+			m_dir = RIGHT;
+			m_block[0] = {m_block[0].x + (1 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+		case RIGHT: {
+			m_dir = UP;
+			m_block[0] = {m_block[0].x - (1 * m_w), m_block[0].y + (2 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y + (1 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+		} break;
+	}
 }
 
 Z_Block::Z_Block(int x, int y, int w, int h)
@@ -172,5 +292,22 @@ Z_Block::Z_Block(int x, int y, int w, int h)
 	}
 
 void Z_Block::rotate() {
-	std::cout << "RZZZIEZ" << std::endl;
+	switch (m_dir) {
+		case UP: {
+			m_dir = DOWN;
+			m_block[0] = {m_block[0].x - (2 * m_w), m_block[0].y + (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (1 * m_h), m_w, m_h};
+		} break;
+		case DOWN: {
+			m_dir = UP;
+			m_block[0] = {m_block[0].x + (2 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
+			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (0 * m_h), m_w, m_h};
+			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y - (1 * m_h), m_w, m_h};
+		} break;
+		default: {
+		} break;
+	}
 }
