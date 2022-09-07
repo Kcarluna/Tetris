@@ -14,5 +14,6 @@ $ ./Tetris
 - Tetronimo Rotation: https://strategywiki.org/wiki/File:Tetris_rotation_Gameboy.png
 - Tetris.wiki: https://tetris.wiki/Tetris.wiki
 - Original Tetris: https://www.youtube.com/watch?v=O0gAgQQHFcQ
+- Tetronimo palette: https://colorswall.com/palette/90259/
 
 [SDL2]: https://www.libsdl.org/
