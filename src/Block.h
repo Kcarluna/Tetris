@@ -22,6 +22,7 @@ protected:
 	int m_dx;
 	int m_dy;
 	Dir m_dir = DOWN;
+	SDL_Color m_color;
 public:
 	Block(int x, int y, int w, int h);
 	virtual ~Block() = default;

@@ -90,7 +90,7 @@ void Block::update() {
 }
 
 void Block::render(SDL_Renderer *renderer) const {
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(renderer, m_color.r, m_color.g, m_color.b, SDL_ALPHA_OPAQUE);
 	SDL_RenderFillRects(renderer, m_block, BLOCK_PIECES);
 }
 
@@ -100,6 +100,7 @@ I_Block::I_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (3 * w), y + (0 * h), w, h};
+		m_color = {0, 255, 255};
 }
 
 void I_Block::rotate() {
@@ -129,6 +130,7 @@ J_Block::J_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (2 * w), y + (1 * h), w, h};
+		m_color = {0, 0, 255};
 	}
 
 void J_Block::rotate() {
@@ -170,6 +172,7 @@ L_Block::L_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (0 * w), y + (1 * h), w, h};
+		m_color = {255, 127, 0};
 	}
 
 void L_Block::rotate() {
@@ -211,6 +214,7 @@ O_Block::O_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (0 * w), y + (1 * h), w, h};
 		m_block[2] = {x + (1 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (1 * w), y + (1 * h), w, h};
+		m_color = {255, 255, 0};
 	}
 
 S_Block::S_Block(int x, int y, int w, int h)
@@ -219,6 +223,7 @@ S_Block::S_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (1 * w), y + (1 * h), w, h};
 		m_block[2] = {x + (1 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (2 * w), y + (0 * h), w, h};
+		m_color = {0, 255, 0};
 	}
 
 void S_Block::rotate() {
@@ -248,6 +253,7 @@ T_Block::T_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (1 * w), y + (1 * h), w, h};
+		m_color = {128, 0, 128};
 	}
 
 void T_Block::rotate() {
@@ -289,6 +295,7 @@ Z_Block::Z_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (1 * w), y + (1 * h), w, h};
 		m_block[3] = {x + (2 * w), y + (1 * h), w, h};
+		m_color = {255, 0, 0};
 	}
 
 void Z_Block::rotate() {

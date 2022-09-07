@@ -4,7 +4,7 @@
 
 Board::Board(int x, int y, int w, int h)
 	: m_board({x, y, w, h}) {
-		m_current_block = new L_Block(m_board.x, m_board.y, GAP, GAP);
+		m_current_block = generate_new_block(); 
 	}
 
 Board::~Board() {
