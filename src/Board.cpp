@@ -4,7 +4,8 @@
 
 Board::Board(int x, int y, int w, int h)
 	: m_board({x, y, w, h}) {
-		m_current_block = generate_new_block(); 
+		//m_current_block = generate_new_block(); 
+		m_current_block = new J_Block(m_board.x, m_board.y, GAP, GAP);
 	}
 
 Board::~Board() {
@@ -66,7 +67,7 @@ void Board::update_board() {
 
 void Board::update() {
 	for (int i = 0; i < ROWS - 1; i++) {
-		for (int j = 0; j < COLS - 1; j++) {
+		for (int j = 0; j < COLS; j++) {
 			if ((m_current_block->get_x(0) == m_board.x + (j * GAP) && m_current_block->get_y(0) == m_board.y + (i * GAP)) ||
 				(m_current_block->get_x(1) == m_board.x + (j * GAP) && m_current_block->get_y(1) == m_board.y + (i * GAP)) ||
 				(m_current_block->get_x(2) == m_board.x + (j * GAP) && m_current_block->get_y(2) == m_board.y + (i * GAP)) ||

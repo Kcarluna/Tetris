@@ -179,17 +179,17 @@ void L_Block::rotate() {
 	switch (m_dir) {
 		case UP: {
 			m_dir = LEFT;
-			m_block[0] = {m_block[0].x - (1 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
+			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y - (1 * m_h), m_w, m_h};
 			m_block[1] = {m_block[1].x - (1 * m_w), m_block[1].y - (1 * m_h), m_w, m_h};
 			m_block[2] = {m_block[2].x + (0 * m_w), m_block[2].y - (2 * m_h), m_w, m_h};
-			m_block[3] = {m_block[3].x - (2 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x - (1 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
 		} break;
 		case LEFT: {
 			m_dir = DOWN;
-			m_block[0] = {m_block[0].x + (0 * m_w), m_block[0].y + (0 * m_h), m_w, m_h};
+			m_block[0] = {m_block[0].x - (1 * m_w), m_block[0].y + (0 * m_h), m_w, m_h};
 			m_block[1] = {m_block[1].x + (0 * m_w), m_block[1].y + (1 * m_h), m_w, m_h};
 			m_block[2] = {m_block[2].x + (2 * m_w), m_block[2].y + (1 * m_h), m_w, m_h};
-			m_block[3] = {m_block[3].x + (0 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
+			m_block[3] = {m_block[3].x - (1 * m_w), m_block[3].y + (0 * m_h), m_w, m_h};
 		} break;
 		case DOWN: {
 			m_dir = RIGHT;
