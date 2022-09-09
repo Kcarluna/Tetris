@@ -4,8 +4,7 @@
 
 Board::Board(int x, int y, int w, int h)
 	: m_board({x, y, w, h}) {
-		//m_current_block = generate_new_block(); 
-		m_current_block = new J_Block(m_board.x, m_board.y, GAP, GAP);
+		m_current_block = generate_new_block(); 
 	}
 
 Board::~Board() {
@@ -54,51 +53,15 @@ void Board::update_board() {
 	for (const auto &block: m_active_blocks) {
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
-				if ((block->get_x(0) == m_board.x + (j * GAP) && block->get_y(0) == m_board.y + (i * GAP)) ||
-					(block->get_x(1) == m_board.x + (j * GAP) && block->get_y(1) == m_board.y + (i * GAP)) ||
-					(block->get_x(2) == m_board.x + (j * GAP) && block->get_y(2) == m_board.y + (i * GAP)) ||
-					(block->get_x(3) == m_board.x + (j * GAP) && block->get_y(3) == m_board.y + (i * GAP))) {
-						m_data[i][j] = 1;
+				if ((block->get_x(0) == m_board.x + (j * GAP) && block->get_y(0) == m_board.y + (i * GAP) && m_data[i][j] != 'x') ||
+					(block->get_x(1) == m_board.x + (j * GAP) && block->get_y(1) == m_board.y + (i * GAP) && m_data[i][j] != 'x') ||
+					(block->get_x(2) == m_board.x + (j * GAP) && block->get_y(2) == m_board.y + (i * GAP) && m_data[i][j] != 'x') ||
+					(block->get_x(3) == m_board.x + (j * GAP) && block->get_y(3) == m_board.y + (i * GAP) && m_data[i][j] != 'x')) {
+						m_data[i][j] = 'x';
 					}
 			}
 		}
 	}
-}
-
-void Board::update() {
-	for (int i = 0; i < ROWS - 1; i++) {
-		for (int j = 0; j < COLS; j++) {
-			if ((m_current_block->get_x(0) == m_board.x + (j * GAP) && m_current_block->get_y(0) == m_board.y + (i * GAP)) ||
-				(m_current_block->get_x(1) == m_board.x + (j * GAP) && m_current_block->get_y(1) == m_board.y + (i * GAP)) ||
-				(m_current_block->get_x(2) == m_board.x + (j * GAP) && m_current_block->get_y(2) == m_board.y + (i * GAP)) ||
-				(m_current_block->get_x(3) == m_board.x + (j * GAP) && m_current_block->get_y(3) == m_board.y + (i * GAP))) {
-					if (m_data[i + 1][j] == 1) {
-						m_hit = true;
-						goto endloop;
-					}
-				}
-		}
-	}
-
-endloop:
-	const Uint8 *state = SDL_GetKeyboardState(NULL);
-	if (state[SDL_SCANCODE_W]) {
-		m_current_block->rotate();
-	} else if (state[SDL_SCANCODE_A] && m_current_block->in_lower_x(m_board.x)) {
-		m_current_block->move(LEFT);
-	} else if (state[SDL_SCANCODE_S] && m_current_block->in_upper_y(m_board.y + m_board.h)) {
-		m_current_block->move(DOWN);
-	} else if (state[SDL_SCANCODE_D] && m_current_block->in_upper_x(m_board.x + m_board.w)) {
-		m_current_block->move(RIGHT);
-	}
-	if (m_current_block->in_upper_y(m_board.y + m_board.h) && !m_hit) {
-		m_current_block->update();
-	} else {
-		m_active_blocks.push_back(m_current_block);
-		m_current_block = generate_new_block();
-		m_hit = false;
-	}
-	update_board();
 }
 
 void Board::print_board() const {
@@ -115,12 +78,49 @@ void Board::print_board() const {
 			std::cout << i << "  ";
 		}
 		for (int j = 0; j < COLS; j++) {
-			std::cout << m_data[i][j] << " ";
+			if (!m_data[i][j]) {
+				std::cout << "- ";
+			} else {
+				std::cout << m_data[i][j] << " ";
+			}
 		}
 		std::cout << std::endl;
 	}
 	std::cout << "-----------------------" << std::endl;
+}
 
+void Board::update() {
+	const Uint8 *state = SDL_GetKeyboardState(NULL);
+	if (state[SDL_SCANCODE_W]) {
+		m_current_block->rotate();
+	} else if (state[SDL_SCANCODE_A] && m_current_block->in_lower_x(m_board.x)) {
+		m_current_block->move(LEFT);
+	} else if (state[SDL_SCANCODE_S] && m_current_block->in_upper_y(m_board.y + m_board.h)) {
+		m_current_block->move(DOWN);
+	} else if (state[SDL_SCANCODE_D] && m_current_block->in_upper_x(m_board.x + m_board.w)) {
+		m_current_block->move(RIGHT);
+	}
+	for (int i = 0; i < ROWS - 1; i++) {
+		for (int j = 0; j < COLS; j++) {
+			if ((m_current_block->get_x(0) == m_board.x + (j * GAP) && m_current_block->get_y(0) == m_board.y + (i * GAP)) ||
+				(m_current_block->get_x(1) == m_board.x + (j * GAP) && m_current_block->get_y(1) == m_board.y + (i * GAP)) ||
+				(m_current_block->get_x(2) == m_board.x + (j * GAP) && m_current_block->get_y(2) == m_board.y + (i * GAP)) ||
+				(m_current_block->get_x(3) == m_board.x + (j * GAP) && m_current_block->get_y(3) == m_board.y + (i * GAP))) {
+					if (m_data[i + 1][j] == 'x') {
+						m_hit = true;
+						break;
+					}
+				}
+		}
+	}
+	if (m_current_block->in_upper_y(m_board.y + m_board.h) && !m_hit) {
+		m_current_block->update();
+	} else {
+		m_active_blocks.push_back(m_current_block);
+		m_current_block = generate_new_block();
+		m_hit = false;
+	}
+	update_board();
 }
 
 void Board::render(SDL_Renderer *renderer) const {

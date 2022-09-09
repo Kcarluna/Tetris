@@ -15,7 +15,7 @@ private:
 	Block *m_current_block;
 	std::vector<Block *> m_active_blocks;
 
-	int m_data[ROWS][COLS] = {0};
+	char m_data[ROWS][COLS] = {0};
 	bool m_hit = false;
 public:
 	Board(int x, int y, int w, int h);
@@ -23,7 +23,7 @@ public:
 
 	Block *generate_new_block();
 	void update_board();
-	void update();
 	void print_board() const;
+	void update();
 	void render(SDL_Renderer *renderer) const;
 };

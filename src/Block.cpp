@@ -69,20 +69,6 @@ void Block::move(Dir dir) {
 	}
 }
 
-bool Block::hit (const Block *block) const {
-	if ((m_block[0].x == block->m_block[0].x ||
-		 m_block[1].x == block->m_block[1].x ||
-		 m_block[2].x == block->m_block[2].x ||
-		 m_block[3].x == block->m_block[3].x) &&
-		(m_block[0].y + (2 * m_block[0].h) > block->m_block[0].y ||
-		 m_block[1].y + (2 * m_block[1].h) > block->m_block[1].y ||
-		 m_block[2].y + (2 * m_block[2].h) > block->m_block[2].y ||
-		 m_block[3].y + (2 * m_block[3].h) > block->m_block[3].y)) {
-			return true;
-		 }
-	return false;
-}
-
 void Block::update() {
 	for (auto &block: m_block) {
 		block.y += m_dy;

@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL.h>
-#include <vector>
 
 #define BLOCK_PIECES 4
 
@@ -36,7 +35,6 @@ public:
 
 	virtual void rotate() {};
 	void move(Dir dir);
-	bool hit (const Block *block) const;
 	void update();
 	void render(SDL_Renderer *renderer) const;
 };
