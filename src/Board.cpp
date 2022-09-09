@@ -129,16 +129,17 @@ void Board::render(SDL_Renderer *renderer) const {
 	SDL_SetRenderDrawColor(renderer, 150, 100, 50, SDL_ALPHA_OPAQUE);
 	SDL_RenderFillRect(renderer, &m_board);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	for (const auto &block: m_active_blocks) {
+		block->render(renderer);
+	}
+	m_current_block->render(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 	for (int x = 0; x <= COLS; x++) {
 		SDL_RenderDrawLine(renderer, m_board.x + (x * GAP), 0, m_board.x + (x * GAP), m_board.h);
 	}
 	for (int y = 0; y <= ROWS; y++) {
 		SDL_RenderDrawLine(renderer, m_board.x, m_board.y + (y * GAP), m_board.x + m_board.w, m_board.y + (y * GAP));
 	}
-	for (const auto &block: m_active_blocks) {
-		block->render(renderer);
-	}
-	m_current_block->render(renderer);
 	//print_board();
 	SDL_RenderPresent(renderer);
 }
