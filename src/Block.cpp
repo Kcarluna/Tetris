@@ -64,9 +64,32 @@ void Block::move(Dir dir) {
 		} break;
 	}
 	for (auto &block: m_block) {
-		block.x += x * m_dx;
-		block.y += y * m_dy;
+		if (!SDL_RectEmpty(&block)) {
+			block.x += x * m_dx;
+			block.y += y * m_dy;
+		}
 	}
+}
+
+void Block::move(int index, Dir dir) {
+	switch (dir) {
+		case DOWN: {
+			m_block[index].y += m_dx;
+		} break;
+		default: {
+		} break;
+	}
+}
+
+void Block::clear(int index) {
+	m_block[index] = {};
+}
+
+bool Block::is_empty() const {
+	return (SDL_RectEmpty(&m_block[0]) &&
+			SDL_RectEmpty(&m_block[1]) &&
+			SDL_RectEmpty(&m_block[2]) &&
+			SDL_RectEmpty(&m_block[3]));
 }
 
 void Block::update() {

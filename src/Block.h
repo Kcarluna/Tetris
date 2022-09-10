@@ -35,6 +35,9 @@ public:
 
 	virtual void rotate() {};
 	void move(Dir dir);
+	void move(int index, Dir dir);
+	void clear(int index);
+	bool is_empty() const;
 	void update();
 	void render(SDL_Renderer *renderer) const;
 };

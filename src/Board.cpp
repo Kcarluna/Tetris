@@ -49,9 +49,62 @@ Block *Board::generate_new_block() {
 	return temp;
 }
 
+void Board::clear_row(int index) {
+	for (int j = 0; j < COLS; j++) {
+		m_data[index][j] = '\0';
+	}
+	auto it = m_active_blocks.begin();
+	for (auto &block: m_active_blocks) {
+		for (int j = 0; j < COLS; j++) {
+			if (block->get_x(0) == m_board.x + (j * GAP) && block->get_y(0) == m_board.y + (index * GAP)) {
+				block->clear(0);
+			}
+			if (block->get_x(1) == m_board.x + (j * GAP) && block->get_y(1) == m_board.y + (index * GAP)) {
+				block->clear(1);
+			}
+			if (block->get_x(2) == m_board.x + (j * GAP) && block->get_y(2) == m_board.y + (index * GAP)) {
+				block->clear(2);
+			}
+			if (block->get_x(3) == m_board.x + (j * GAP) && block->get_y(3) == m_board.y + (index * GAP)) {
+				block->clear(3);
+			}
+		}
+		if (block->is_empty()) {
+			m_active_blocks.erase(it);
+		}
+		it++;
+	}
+}
+
+void Board::move_row(int index) {
+	for (int i = index; i > -1; i--) {
+		for (int j = 0; j < COLS; j++) {
+			if (m_data[i][j] == 'x') {
+				m_data[i][j] = '\0';
+				m_data[i + 1][j] = 'x';
+			}
+			for (auto &block: m_active_blocks) {
+				if (block->get_x(0) == m_board.x + (j * GAP) && block->get_y(0) == m_board.y + (i * GAP)) {
+					block->move(0, DOWN);
+				}
+				if (block->get_x(1) == m_board.x + (j * GAP) && block->get_y(1) == m_board.y + (i * GAP)) {
+					block->move(1, DOWN);
+				}
+				if (block->get_x(2) == m_board.x + (j * GAP) && block->get_y(2) == m_board.y + (i * GAP)) {
+					block->move(2, DOWN);
+				}
+				if (block->get_x(3) == m_board.x + (j * GAP) && block->get_y(3) == m_board.y + (i * GAP)) {
+					block->move(3, DOWN);
+				}
+			}
+		}
+	}
+}
+
 void Board::update_board() {
 	for (const auto &block: m_active_blocks) {
 		for (int i = 0; i < ROWS; i++) {
+			int count = 0;
 			for (int j = 0; j < COLS; j++) {
 				if ((block->get_x(0) == m_board.x + (j * GAP) && block->get_y(0) == m_board.y + (i * GAP) && m_data[i][j] != 'x') ||
 					(block->get_x(1) == m_board.x + (j * GAP) && block->get_y(1) == m_board.y + (i * GAP) && m_data[i][j] != 'x') ||
@@ -59,6 +112,14 @@ void Board::update_board() {
 					(block->get_x(3) == m_board.x + (j * GAP) && block->get_y(3) == m_board.y + (i * GAP) && m_data[i][j] != 'x')) {
 						m_data[i][j] = 'x';
 					}
+				if (m_data[i][j] == 'x') {
+					count++;
+				}
+				if (count == COLS) {
+					// NOTE(__LUNA__): Move from top to bottom
+					clear_row(i);
+					move_row(i - 1);
+				}
 			}
 		}
 	}
