@@ -150,15 +150,41 @@ void Board::print_board() const {
 	std::cout << "-----------------------" << std::endl;
 }
 
+bool Board::can_move(Dir dir) const {
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			if ((m_current_block->get_x(0) == m_board.x + (j * GAP) && m_current_block->get_y(0) == m_board.y + (i * GAP)) ||
+				(m_current_block->get_x(1) == m_board.x + (j * GAP) && m_current_block->get_y(1) == m_board.y + (i * GAP)) ||
+				(m_current_block->get_x(2) == m_board.x + (j * GAP) && m_current_block->get_y(2) == m_board.y + (i * GAP)) ||
+				(m_current_block->get_x(3) == m_board.x + (j * GAP) && m_current_block->get_y(3) == m_board.y + (i * GAP))) {
+					if (dir == LEFT) {
+						if (m_data[i][j - 1] == 'x') {
+							return false;
+						}
+					} else if (dir == DOWN) {
+						if (m_data[i + 2][j] == 'x') {
+							return false;
+						}
+					} else if (dir == RIGHT) {
+						if (m_data[i][j + 1] == 'x') {
+							return false;
+						}
+					}
+				}
+		}
+	}
+	return true;
+}
+
 void Board::update() {
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_W]) {
 		m_current_block->rotate();
-	} else if (state[SDL_SCANCODE_A] && m_current_block->in_lower_x(m_board.x)) {
+	} else if (state[SDL_SCANCODE_A] && m_current_block->in_lower_x(m_board.x) && can_move(LEFT)) {
 		m_current_block->move(LEFT);
-	} else if (state[SDL_SCANCODE_S] && m_current_block->in_upper_y(m_board.y + m_board.h)) {
+	} else if (state[SDL_SCANCODE_S] && m_current_block->in_upper_y(m_board.y + m_board.h) && can_move(DOWN)) {
 		m_current_block->move(DOWN);
-	} else if (state[SDL_SCANCODE_D] && m_current_block->in_upper_x(m_board.x + m_board.w)) {
+	} else if (state[SDL_SCANCODE_D] && m_current_block->in_upper_x(m_board.x + m_board.w) && can_move(RIGHT)) {
 		m_current_block->move(RIGHT);
 	}
 	for (int i = 0; i < ROWS - 1; i++) {
@@ -169,11 +195,12 @@ void Board::update() {
 				(m_current_block->get_x(3) == m_board.x + (j * GAP) && m_current_block->get_y(3) == m_board.y + (i * GAP))) {
 					if (m_data[i + 1][j] == 'x') {
 						m_hit = true;
-						break;
+						goto endloop;
 					}
 				}
 		}
 	}
+	endloop:
 	if (m_current_block->in_upper_y(m_board.y + m_board.h) && !m_hit) {
 		m_current_block->update();
 	} else {

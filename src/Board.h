@@ -26,6 +26,7 @@ public:
 	void move_row(int index);
 	void update_board();
 	void print_board() const;
+	bool can_move(Dir dir) const;
 	void update();
 	void render(SDL_Renderer *renderer) const;
 };

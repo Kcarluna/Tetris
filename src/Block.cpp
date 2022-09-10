@@ -52,7 +52,6 @@ void Block::move(Dir dir) {
 			y = 0;
 		} break;
 		case DOWN: {
-			// NOTE(__LUNA__): Accelerate block... so fix it
 			x = 0;
 			y = 1;
 		} break;
@@ -105,10 +104,11 @@ void Block::render(SDL_Renderer *renderer) const {
 
 I_Block::I_Block(int x, int y, int w, int h) 
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
-		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
-		m_block[3] = {x + (3 * w), y + (0 * h), w, h};
+		m_block[0] = {x + (3 * w), y + (0 * h), w, h};
+		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
+		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
+		m_block[3] = {x + (6 * w), y + (0 * h), w, h};
+
 		m_color = {0, 255, 255};
 }
 
@@ -135,10 +135,10 @@ void I_Block::rotate() {
 
 J_Block::J_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
-		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
-		m_block[3] = {x + (2 * w), y + (1 * h), w, h};
+		m_block[0] = {x + (3 * w), y + (0 * h), w, h};
+		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
+		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
+		m_block[3] = {x + (5 * w), y + (1 * h), w, h};
 		m_color = {0, 0, 255};
 	}
 
@@ -177,10 +177,10 @@ void J_Block::rotate() {
 
 L_Block::L_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
-		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
-		m_block[3] = {x + (0 * w), y + (1 * h), w, h};
+		m_block[0] = {x + (3 * w), y + (0 * h), w, h};
+		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
+		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
+		m_block[3] = {x + (3 * w), y + (1 * h), w, h};
 		m_color = {255, 127, 0};
 	}
 
@@ -219,19 +219,19 @@ void L_Block::rotate() {
 
 O_Block::O_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
-		m_block[1] = {x + (0 * w), y + (1 * h), w, h};
-		m_block[2] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[3] = {x + (1 * w), y + (1 * h), w, h};
+		m_block[0] = {x + (4 * w), y + (0 * h), w, h};
+		m_block[1] = {x + (4 * w), y + (1 * h), w, h};
+		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
+		m_block[3] = {x + (5 * w), y + (1 * h), w, h};
 		m_color = {255, 255, 0};
 	}
 
 S_Block::S_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (1 * h), w, h};
-		m_block[1] = {x + (1 * w), y + (1 * h), w, h};
-		m_block[2] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[3] = {x + (2 * w), y + (0 * h), w, h};
+		m_block[0] = {x + (3 * w), y + (1 * h), w, h};
+		m_block[1] = {x + (4 * w), y + (1 * h), w, h};
+		m_block[2] = {x + (4 * w), y + (0 * h), w, h};
+		m_block[3] = {x + (5 * w), y + (0 * h), w, h};
 		m_color = {0, 255, 0};
 	}
 
@@ -258,10 +258,10 @@ void S_Block::rotate() {
 
 T_Block::T_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
-		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[2] = {x + (2 * w), y + (0 * h), w, h};
-		m_block[3] = {x + (1 * w), y + (1 * h), w, h};
+		m_block[0] = {x + (3 * w), y + (0 * h), w, h};
+		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
+		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
+		m_block[3] = {x + (4 * w), y + (1 * h), w, h};
 		m_color = {128, 0, 128};
 	}
 
@@ -300,10 +300,10 @@ void T_Block::rotate() {
 
 Z_Block::Z_Block(int x, int y, int w, int h)
 	: Block(x, y, w, h) {
-		m_block[0] = {x + (0 * w), y + (0 * h), w, h};
-		m_block[1] = {x + (1 * w), y + (0 * h), w, h};
-		m_block[2] = {x + (1 * w), y + (1 * h), w, h};
-		m_block[3] = {x + (2 * w), y + (1 * h), w, h};
+		m_block[0] = {x + (3 * w), y + (0 * h), w, h};
+		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
+		m_block[2] = {x + (4 * w), y + (1 * h), w, h};
+		m_block[3] = {x + (5 * w), y + (1 * h), w, h};
 		m_color = {255, 0, 0};
 	}
 
