@@ -109,7 +109,7 @@ I_Block::I_Block(int x, int y, int w, int h)
 		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (6 * w), y + (0 * h), w, h};
 
-		m_color = {0, 255, 255};
+		m_color = {.r = 0, .g = 255, .b = 255};
 }
 
 void I_Block::rotate() {
@@ -139,7 +139,8 @@ J_Block::J_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (5 * w), y + (1 * h), w, h};
-		m_color = {0, 0, 255};
+
+		m_color = {.r = 0, .g = 0, .b = 255};
 	}
 
 void J_Block::rotate() {
@@ -181,7 +182,8 @@ L_Block::L_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (3 * w), y + (1 * h), w, h};
-		m_color = {255, 127, 0};
+
+		m_color = {.r = 255, .g = 127, .b = 0};
 	}
 
 void L_Block::rotate() {
@@ -223,7 +225,8 @@ O_Block::O_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (4 * w), y + (1 * h), w, h};
 		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (5 * w), y + (1 * h), w, h};
-		m_color = {255, 255, 0};
+
+		m_color = {.r = 255, .g = 255, .b = 0};
 	}
 
 S_Block::S_Block(int x, int y, int w, int h)
@@ -232,7 +235,8 @@ S_Block::S_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (4 * w), y + (1 * h), w, h};
 		m_block[2] = {x + (4 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (5 * w), y + (0 * h), w, h};
-		m_color = {0, 255, 0};
+
+		m_color = {.r = 0, .g = 255, .b = 0};
 	}
 
 void S_Block::rotate() {
@@ -262,7 +266,8 @@ T_Block::T_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (5 * w), y + (0 * h), w, h};
 		m_block[3] = {x + (4 * w), y + (1 * h), w, h};
-		m_color = {128, 0, 128};
+
+		m_color = {.r = 128, .g = 0, .b = 128};
 	}
 
 void T_Block::rotate() {
@@ -304,7 +309,8 @@ Z_Block::Z_Block(int x, int y, int w, int h)
 		m_block[1] = {x + (4 * w), y + (0 * h), w, h};
 		m_block[2] = {x + (4 * w), y + (1 * h), w, h};
 		m_block[3] = {x + (5 * w), y + (1 * h), w, h};
-		m_color = {255, 0, 0};
+
+		m_color = {.r = 255, .g = 0, .b = 0};
 	}
 
 void Z_Block::rotate() {

@@ -15,7 +15,7 @@ private:
 	Block *m_current_block;
 	std::vector<Block *> m_active_blocks;
 
-	char m_data[ROWS][COLS] = {0};
+	char m_data[ROWS][COLS] = {{0}};
 	bool m_hit = false;
 public:
 	Board(int x, int y, int w, int h);
