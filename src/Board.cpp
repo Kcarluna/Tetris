@@ -53,7 +53,6 @@ void Board::clear_row(int index) {
 	for (int j = 0; j < COLS; j++) {
 		m_data[index][j] = '\0';
 	}
-	auto it = m_active_blocks.begin();
 	for (auto &block: m_active_blocks) {
 		for (int j = 0; j < COLS; j++) {
 			if (block->get_x(0) == m_board.x + (j * GAP) && block->get_y(0) == m_board.y + (index * GAP)) {
@@ -69,14 +68,16 @@ void Board::clear_row(int index) {
 				block->clear(3);
 			}
 		}
-		if (block->is_empty()) {
-			m_active_blocks.erase(it);
+	}
+	for (size_t i = 0; i < m_active_blocks.size(); i++) {
+		if (m_active_blocks[i]->is_empty()) {
+			delete m_active_blocks[i];
+			m_active_blocks.erase(m_active_blocks.begin() + i);
 		}
-		it++;
 	}
 }
 
-void Board::move_row(int index) {
+void Board::move_rows(int index) {
 	for (int i = index; i > -1; i--) {
 		for (int j = 0; j < COLS; j++) {
 			if (m_data[i][j] == 'x') {
@@ -118,7 +119,7 @@ void Board::update_board() {
 				if (count == COLS) {
 					// NOTE(__LUNA__): Move from top to bottom
 					clear_row(i);
-					move_row(i - 1);
+					move_rows(i - 1);
 				}
 			}
 		}

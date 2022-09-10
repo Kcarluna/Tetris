@@ -24,7 +24,7 @@ protected:
 	SDL_Color m_color;
 public:
 	Block(int x, int y, int w, int h);
-	virtual ~Block() = default;
+	virtual ~Block() {};
 	int get_x(int index) const;
 	int get_y(int index) const;
 

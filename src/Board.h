@@ -23,7 +23,7 @@ public:
 
 	Block *generate_new_block();
 	void clear_row(int index);
-	void move_row(int index);
+	void move_rows(int index);
 	void update_board();
 	void print_board() const;
 	bool can_move(Dir dir) const;
