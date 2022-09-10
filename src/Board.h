@@ -7,7 +7,6 @@
 #define COLS 10
 
 #define GAP 32
-#define BOARD_SIZE (COLS * GAP)
 
 class Board {
 private:
@@ -18,6 +17,7 @@ private:
 	char m_data[ROWS][COLS] = {{0}};
 	bool m_hit = false;
 public:
+	Board() = default;
 	Board(int x, int y, int w, int h);
 	~Board();
 
