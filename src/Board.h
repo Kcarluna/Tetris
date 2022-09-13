@@ -33,6 +33,8 @@ public:
 	void update_board();
 	void print_board() const;
 	bool can_move(Dir dir) const;
+	void rotate_block();
+	void move_block(Dir dir);
 	void update();
 	void render_queue(SDL_Renderer *renderer) const;
 	void render(SDL_Renderer *renderer) const;

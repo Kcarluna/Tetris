@@ -183,17 +183,33 @@ bool Board::can_move(Dir dir) const {
 	return true;
 }
 
-void Board::update() {
-	const Uint8 *state = SDL_GetKeyboardState(NULL);
-	if (state[SDL_SCANCODE_W]) {
-		m_current_block->rotate();
-	} else if (state[SDL_SCANCODE_A] && m_current_block->in_lower_x(m_board.x) && can_move(LEFT)) {
-		m_current_block->move(LEFT);
-	} else if (state[SDL_SCANCODE_S] && m_current_block->in_upper_y(m_board.y + m_board.h) && can_move(DOWN)) {
-		m_current_block->move(DOWN);
-	} else if (state[SDL_SCANCODE_D] && m_current_block->in_upper_x(m_board.x + m_board.w) && can_move(RIGHT)) {
-		m_current_block->move(RIGHT);
+void Board::rotate_block() {
+	m_current_block->rotate();
+}
+
+void Board::move_block(Dir dir) {
+	switch (dir) {
+		case LEFT: {
+			if (m_current_block->in_lower_x(m_board.x) && can_move(LEFT)) {
+				m_current_block->move(LEFT);
+			}
+		} break;
+		case DOWN: {
+			if (m_current_block->in_upper_y(m_board.y + m_board.h) && can_move(DOWN)) {
+				m_current_block->move(DOWN);
+			}
+		} break;
+		case RIGHT: {
+			if (m_current_block->in_upper_x(m_board.x + m_board.w) && can_move(RIGHT)) {
+				m_current_block->move(RIGHT);
+			}
+		} break;
+		default: {
+		} break;
 	}
+}
+
+void Board::update() {
 	for (int i = 0; i < ROWS - 1; i++) {
 		for (int j = 0; j < COLS; j++) {
 			if ((m_current_block->get_x(0) == m_board.x + (j * GAP) && m_current_block->get_y(0) == m_board.y + (i * GAP)) ||
@@ -230,53 +246,46 @@ void Board::render_queue(SDL_Renderer *renderer) const {
 	SDL_RenderDrawLine(renderer, m_queue_rect.x, m_queue_rect.y, m_queue_rect.x, m_queue_rect.y + m_queue_rect.h);
 
 	for (size_t i = 0; i < m_blocks_queue.size(); i++) {
-		std::string type = typeid(*m_blocks_queue[i]).name();
+		const auto &ptr = *m_blocks_queue[i];
+		const std::string type = typeid(ptr).name();
+		SDL_Rect top_block = {.x = 0, .y = 0, .w = 0, .h = 0};
+		SDL_Rect bottom_block = {.x = 0, .y = 0, .w = 0, .h = 0};
 		if (type == "7I_Block") {
-			SDL_Rect I_Block = {m_queue_rect.x + (2 * QUEUE_BLOCK_SIZE) + (QUEUE_BLOCK_SIZE / 2), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 4 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			top_block = {m_queue_rect.x + (2 * QUEUE_BLOCK_SIZE) + (QUEUE_BLOCK_SIZE / 2), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 4 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
 			SDL_Color color = {.r = 0, .g = 255, .b = 255};
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(renderer, &I_Block);
 		} else if (type == "7J_Block") {
-			SDL_Rect J_Block_top = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 3 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
-			SDL_Rect J_Block_bottom = {m_queue_rect.x + (5 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			top_block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 3 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			bottom_block = {m_queue_rect.x + (5 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
 			SDL_Color color = {.r = 0, .g = 0, .b = 255};
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(renderer, &J_Block_top);
-			SDL_RenderFillRect(renderer, &J_Block_bottom);
 		} else if (type == "7L_Block") {
-			SDL_Rect L_Block_top = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 3 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
-			SDL_Rect L_Block_bottom = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			top_block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 3 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			bottom_block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
 			SDL_Color color = {.r = 255, .g = 127, .b = 0};
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(renderer, &L_Block_top);
-			SDL_RenderFillRect(renderer, &L_Block_bottom);
 		} else if (type == "7O_Block") {
-			SDL_Rect O_Block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE) + (QUEUE_BLOCK_SIZE / 2), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 2 * QUEUE_BLOCK_SIZE, 2 * QUEUE_BLOCK_SIZE};
+			top_block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE) + (QUEUE_BLOCK_SIZE / 2), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 2 * QUEUE_BLOCK_SIZE, 2 * QUEUE_BLOCK_SIZE};
 			SDL_Color color = {.r = 255, .g = 255, .b = 0};
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(renderer, &O_Block);
 		} else if (type == "7S_Block") {
-			SDL_Rect S_Block_top = {m_queue_rect.x + (4 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
-			SDL_Rect S_Block_bottom = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			top_block = {m_queue_rect.x + (4 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			bottom_block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
 			SDL_Color color = {.r = 0, .g = 255, .b = 0};
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(renderer, &S_Block_top);
-			SDL_RenderFillRect(renderer, &S_Block_bottom);
 		} else if (type == "7T_Block") {
-			SDL_Rect T_Block_top = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 3 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
-			SDL_Rect T_Block_bottom = {m_queue_rect.x + (4 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			top_block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 3 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			bottom_block = {m_queue_rect.x + (4 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
 			SDL_Color color = {.r = 128, .g = 0, .b = 128};
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(renderer, &T_Block_top);
-			SDL_RenderFillRect(renderer, &T_Block_bottom);
 		} else if (type == "7Z_Block") {
-			SDL_Rect Z_Block_top = {m_queue_rect.x + (4 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
-			SDL_Rect Z_Block_bottom = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			top_block = {m_queue_rect.x + (4 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE) + QUEUE_BLOCK_SIZE), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
+			bottom_block = {m_queue_rect.x + (3 * QUEUE_BLOCK_SIZE), static_cast<int>(m_queue_rect.y + (i * 3 * QUEUE_BLOCK_SIZE)), 2 * QUEUE_BLOCK_SIZE, QUEUE_BLOCK_SIZE};
 			SDL_Color color = {.r = 255, .g = 0, .b = 0};
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(renderer, &Z_Block_top);
-			SDL_RenderFillRect(renderer, &Z_Block_bottom);
 		}
+		SDL_RenderFillRect(renderer, &top_block);
+		SDL_RenderFillRect(renderer, &bottom_block);
 	}
 	SDL_SetRenderDrawColor(renderer, 50, 50, 50, SDL_ALPHA_OPAQUE);
 	for (int x = 1; x < 9; x++) {
