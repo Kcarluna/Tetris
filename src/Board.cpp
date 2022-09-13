@@ -209,6 +209,12 @@ void Board::move_block(Dir dir) {
 	}
 }
 
+void Board::place_block() {
+	while (m_current_block->in_upper_y(m_board.y + m_board.h) && can_move(DOWN)) {
+		m_current_block->move(DOWN);
+	}
+}
+
 void Board::update() {
 	for (int i = 0; i < ROWS - 1; i++) {
 		for (int j = 0; j < COLS; j++) {

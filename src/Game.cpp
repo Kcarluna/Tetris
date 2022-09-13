@@ -15,6 +15,8 @@ void Game::update() {
 		m_board->move_block(DOWN);
 	} else if (state[SDL_SCANCODE_D]) {
 		m_board->move_block(RIGHT);
+	} else if (state[SDL_SCANCODE_SPACE]) {
+		m_board->place_block();
 	}
 	m_board->update();
 }
