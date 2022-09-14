@@ -38,7 +38,7 @@ void Game::update() {
 	if (!m_board->game_over()) {
 		m_board->update();
 	} else {
-		std::cout << "GGS" << std::endl;
+		std::cout << "GAME OVER" << std::endl;
 	}
 }
 
