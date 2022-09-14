@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include "Game.h"
 
 #define WIDTH 1024
@@ -24,6 +25,7 @@ void *check_ptr(void *ptr) {
 
 int main() {
 	check_val(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER));
+	check_val(TTF_Init());
 	SDL_Window *window = static_cast<SDL_Window *>(check_ptr(SDL_CreateWindow("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_RESIZABLE)));
 	SDL_Renderer *renderer = static_cast<SDL_Renderer *>(check_ptr(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED)));
 
@@ -45,6 +47,7 @@ int main() {
 	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	TTF_Quit();
 	SDL_Quit();
 	return 0;
 }

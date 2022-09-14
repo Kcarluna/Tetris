@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <algorithm>
 #include "Board.h"
 
 Board::Board(int x, int y, int w, int h)
@@ -8,7 +9,8 @@ Board::Board(int x, int y, int w, int h)
 			m_blocks_queue.push_back(generate_new_block());
 		}
 		m_queue_rect = {x + w + (QUEUE_RECT_WIDTH / 5), (y + h) - ((4 * QUEUE_RECT_HEIGHT) / 3), QUEUE_RECT_WIDTH, QUEUE_RECT_HEIGHT};
-		m_current_block = generate_new_block(); 
+		m_current_block = generate_new_block();
+		m_score = 0;
 	}
 
 Board::~Board() {
@@ -19,6 +21,10 @@ Board::~Board() {
 	for (auto &block: m_blocks_queue) {
 		delete block;
 	}
+}
+
+int Board::get_score() const {
+	return m_score;
 }
 
 int random_num() {
@@ -54,6 +60,15 @@ Block *Board::generate_new_block() {
 			} break;
 		}
 	return temp;
+}
+
+bool Board::game_over() const {
+	for (int j = 0; j < COLS; j++) {
+		if (m_data[0][j] == 'x') {
+			return true;
+		}
+	}
+	return false;
 }
 
 void Board::clear_row(int index) {
@@ -109,7 +124,31 @@ void Board::move_rows(int index) {
 	}
 }
 
+void Board::update_score(const std::vector<int> &level, int amount) {
+	int max_level = (level.size() > 0) ? *std::max_element(level.begin(), level.end()) : 0;
+	// NOTE(__LUNA__): Bottom of Board is 0... top is 23
+	max_level = ROWS - max_level;
+	switch (amount) {
+		case 1: {
+			m_score += 40 * (max_level + 1);
+		} break;
+		case 2:  {
+			m_score += 100 * (max_level + 1);
+		} break;
+		case 3: {
+			m_score += 300 * (max_level + 1);
+		} break;
+		case 4: {
+			m_score += 1200 * (max_level + 1);
+		} break;
+		default: {
+		} break;
+	}
+}
+
 void Board::update_board() {
+	int lines = 0;
+	std::vector<int> level;
 	for (const auto &block: m_active_blocks) {
 		for (int i = 0; i < ROWS; i++) {
 			int count = 0;
@@ -126,10 +165,13 @@ void Board::update_board() {
 				if (count == COLS) {
 					clear_row(i);
 					move_rows(i - 1);
+					lines++;
+					level.push_back(i);
 				}
 			}
 		}
 	}
+	update_score(level, lines);
 }
 
 void Board::print_board() const {
@@ -209,7 +251,7 @@ void Board::move_block(Dir dir) {
 	}
 }
 
-void Board::place_block() {
+void Board::drop_block() {
 	while (m_current_block->in_upper_y(m_board.y + m_board.h) && can_move(DOWN)) {
 		m_current_block->move(DOWN);
 	}
@@ -322,5 +364,4 @@ void Board::render(SDL_Renderer *renderer) const {
 
 	render_queue(renderer);
 	//print_board();
-	SDL_RenderPresent(renderer);
 }

@@ -22,20 +22,24 @@ private:
 
 	char m_data[ROWS][COLS] = {{0}};
 	bool m_hit = false;
+	int m_score;
 public:
 	Board() = default;
 	Board(int x, int y, int w, int h);
 	~Board();
+	int get_score() const;
 
 	Block *generate_new_block();
+	bool game_over() const;
 	void clear_row(int index);
 	void move_rows(int index);
+	void update_score(const std::vector<int> &level, int amount);
 	void update_board();
 	void print_board() const;
 	bool can_move(Dir dir) const;
 	void rotate_block();
 	void move_block(Dir dir);
-	void place_block();
+	void drop_block();
 	void update();
 	void render_queue(SDL_Renderer *renderer) const;
 	void render(SDL_Renderer *renderer) const;
