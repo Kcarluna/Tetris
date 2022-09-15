@@ -1,5 +1,5 @@
 # Tetris
-https://user-images.githubusercontent.com/91232420/190290760-b35156b8-d7a5-4b51-b1c5-9da00261dffd.mov
+![Tetris](https://user-images.githubusercontent.com/91232420/190317314-8a49b17d-6b48-430c-8e66-beccbf44ec7f.gif)
 
 ## Controls
 | Key                 | Description            |
