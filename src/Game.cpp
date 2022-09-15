@@ -12,27 +12,31 @@ TTF_Font *init_font() {
 	return font;
 }
 
-#define SCORE_BOARD_WIDTH 175
+#define SCORE_BOARD_WIDTH 225
 #define SCORE_BOARD_HEIGHT 88
 #define PADDING 10
 
 Game::Game(int x, int y, int w, int h) 
 	: m_font(init_font()) {
 		m_board = new Board(x, y, w, h);
-		m_score_board = {(x + w) +  (SCORE_BOARD_WIDTH / 2), y + PADDING, SCORE_BOARD_WIDTH, SCORE_BOARD_HEIGHT};
+		m_score_board = {(x + w) +  (SCORE_BOARD_WIDTH / 2) - (SCORE_BOARD_WIDTH / 5), y + PADDING, SCORE_BOARD_WIDTH, SCORE_BOARD_HEIGHT};
 	}
 
 void Game::update() {
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_W]) {
 		m_board->rotate_block();
-	} else if (state[SDL_SCANCODE_A]) {
+	}
+	if (state[SDL_SCANCODE_A]) {
 		m_board->move_block(LEFT);
-	} else if (state[SDL_SCANCODE_S]) {
+	}
+	if (state[SDL_SCANCODE_S]) {
 		m_board->move_block(DOWN);
-	} else if (state[SDL_SCANCODE_D]) {
+	}
+	if (state[SDL_SCANCODE_D]) {
 		m_board->move_block(RIGHT);
-	} else if (state[SDL_SCANCODE_SPACE]) {
+	}
+	if (state[SDL_SCANCODE_SPACE]) {
 		m_board->drop_block();
 	}
 	if (!m_board->game_over()) {
