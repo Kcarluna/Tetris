@@ -1,8 +1,17 @@
 # Tetris
 
+## Controls
+| Key                 | Description            |
+| ------------------- | ---------------------- |
+| <kbd>space</kbd>    | Drop block             |
+| <kbd>W</kbd>        | Rotate block           |
+| <kbd>A</kbd>        | Move block left        |
+| <kbd>S</kbd>        | Move block down        |
+| <kbd>D</kbd>        | Move block right       |
+
 ## Quick Start
 
-Dependencies: [SDL2]
+Dependencies: [SDL2], [SDL2_ttf]
 ```console
 $ cd Tetris/src
 $ make
@@ -17,3 +26,4 @@ $ ./Tetris
 - Tetris Scoring: https://tetris.fandom.com/wiki/Scoring
 
 [SDL2]: https://www.libsdl.org/
+[SDL2_ttf]: https://wiki.libsdl.org/SDL_ttf/FrontPage
