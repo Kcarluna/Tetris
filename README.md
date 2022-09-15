@@ -1,5 +1,5 @@
 # Tetris
-~[Tetris](/img/Tetris_Recording.mov?raw=true)
+https://user-images.githubusercontent.com/91232420/190290760-b35156b8-d7a5-4b51-b1c5-9da00261dffd.mov
 
 ## Controls
 | Key                 | Description            |
